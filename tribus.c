@@ -87,17 +87,14 @@ ptarget)) {
 				if (!(hash32[7] & mask)) {
 					printf("[%d]",thr_id);
 					if (fulltest(hash32, ptarget)) {
-						work_set_target_ratio(work, 
-hash32);
-						*hashes_done = n - first_nonce + 
-1;
+						work_set_target_ratio(work, hash32);
+						*hashes_done = n - first_nonce + 1;
 						return 1;
 					}
 				}
 #endif
 			} while (n < max_nonce && !work_restart[thr_id].restart);
-			// see blake.c if else to understand the loop on htmax => 
-mask
+			// see blake.c if else to understand the loop on htmax => mask
 			break;
 		}
 	}

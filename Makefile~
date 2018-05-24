@@ -23,7 +23,9 @@ else
 	THREAD_FLAGS=
 endif
 
-CFLAGS=-I. -I./jansson/include -I./jansson/src -std=c11 $(DEBUG_FLAGS) $(ASM_FLAGS) $(THREAD_FLAGS) -s NO_EXIT_RUNTIME=1 -s INVOKE_RUN=0 -s RESERVED_FUNCTION_POINTERS=20 -s EXPORT_BINDINGS=1 -s NO_FILESYSTEM=1 -s EXPORTED_FUNCTIONS='["_main","_init","_registerSubmitSolutionCallBack","_registerAddHashCallBack", "_registerJobCallBack", "_getHashes","_getHashRate", "_updateStats"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["addFunction", "ccall", "cwrap"]'
+CFLAGS=-I. -I./jansson/include -I./jansson/src  -std=c11 $(DEBUG_FLAGS) $(ASM_FLAGS) $(THREAD_FLAGS) -s NO_EXIT_RUNTIME=1 -s INVOKE_RUN=0 -s 
+RESERVED_FUNCTION_POINTERS=20 
+-s EXPORT_BINDINGS=1 -s NO_FILESYSTEM=1 -s EXPORTED_FUNCTIONS='["_main","_init","_registerSubmitSolutionCallBack","_registerAddHashCallBack", "_registerJobCallBack", "_getHashes","_getHashRate", "_updateStats"]' -s EXTRA_EXPORTED_RUNTIME_METHODS='["addFunction", "ccall", "cwrap"]'
 
 
 INC=elist.h \

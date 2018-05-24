@@ -26,11 +26,11 @@
 #include <sys/sysctl.h>
 #endif
 
-//TODO XXX WHich is better?
+//TODO XXX Which is better?
 //JSON
 #include <jansson.h>
 //JSON2
-#include <jsmn/jsmn.h>
+//#include <jsmn/jsmn.h>
 
 #include "miner.h"
 #include "compat.h"

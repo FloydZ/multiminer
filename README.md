@@ -53,7 +53,8 @@ Algorithms
 Dependencies
 ============
 * jansson			http://www.digip.org/jansson/ 
-* emscripten			https://github.com/kripken/emscripten
+* emscripten		https://github.com/kripken/emscripten
+
 Download
 ========
 * Git tree:   https://github.com/FloydZ/multiminer
@@ -63,12 +64,23 @@ Build
 =====
 
 #### Basic *nix build instructions (needs Emscripten):
- * make
+```
+	git clone https://github.com/FloydZ/multiminer
+	cd multiminer
+	git clone http://www.digip.org/jansson/ 
+	cd jansson 
+	cmake .
+	make 
+	cd ..
+	make
+	
+```
  * See Makefile for some specific flags like DEBUG.
 
 Usage instructions
 ==================
 Open Debug.html in your browser and try some algos
+Or look in the example folder. There you find a captcha and miner example which uses WebWorker. 
 
 Credits
 =======
