@@ -7,10 +7,8 @@ fork of [pooler](//github.com/pooler)'s cpuminer (see AUTHORS for list of contri
 
 * [Algorithms](#algorithms)
 * [Dependencies](#dependencies)
-* [Download](#download)
 * [Build](#build)
 * [Usage instructions](#usage-instructions)
-* [Donations](#donations)
 * [Credits](#credits)
 * [License](#license)
 
