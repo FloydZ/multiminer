@@ -48,7 +48,7 @@ Algorithms
  * ✓ __veltor__ 
  * ✓ __xevan__   
  * ✓ __yescrypt__
- * ✓ __zr5t__
+ * ✓ __zr5__
  
 Dependencies
 ============
