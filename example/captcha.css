@@ -1,0 +1,148 @@
+.captchaContainer {
+  background-color: #f9f9f9;
+  border: 1px solid #d4d4d4;
+  padding: 15px 40px 15px 30px;
+}
+.captchaWrapper {
+  line-height: 0;
+}
+.captchaWrapper, .captchaContainer {
+  display: inline-block;
+  float: left;
+}
+#hiddenCaptcha {
+  display: none;
+}
+#hiddenCaptcha:checked + .captchaLabel:after {
+  max-width: 25px;
+  opacity: 1;
+  overflow: inherit;
+}
+.captchaProgress {
+}
+.captchaLabel {
+  font-family: 'Trebuchet MS', sans-serif;
+  font-weight: 700;
+  color: #4a4a4a;
+  padding: 2px 0 0 40px;
+  position: relative;
+  display: block;
+  float: left;
+}
+.captchaLabel:after {
+  font-family: FontAwesome;
+  position: absolute;
+  content: '\f00c';
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0.5;
+  font-size: 30px;
+  top: 0;
+  left: -24px;
+  color: #039F53;
+  -webkit-transition: all 0.7s;
+  -moz-transition: all 0.7s;
+  -ms-transition: all 0.7s;
+  transition: all 0.7s;
+}
+.captchaBox {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  outline: none;
+  border: 2px solid #b9b9b9;
+  border-radius: 2px;
+}
+.boxHover {
+  background-color: #fff;
+}
+.boxHover:hover {
+  cursor: pointer;
+  border: 2px solid #1E88E5;
+}
+.scaleDown {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  transform: scale(0.2,0.2);
+}
+.circle {
+  border-top: 2px solid #1E88E5;
+  border-right-color: transparent;
+  border-bottom: 2px solid #1E88E5;
+  border-left-color: transparent;
+  border-radius: 12px;
+  background-color: #fafafa;
+}
+.scaleUp {
+  -webkit-transition: all 0.6s ease;
+  -moz-transition: all 0.6s ease;
+  -ms-transition: all 0.6s ease;
+  transition: all .6s ease;
+  transform: scale(1,1);
+}
+.rotation {
+    /*
+    -webkit-transition: all 2s ease-out;
+    -moz-transition: all 2s ease-out;
+    -ms-transition: all 2s ease-out;
+    */
+    transition: all 2s infinite;
+    animation: spin 1s linear infinite;
+    transform: rotate(1080deg);
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.fadeOut {
+  -webkit-transition: all 0.6s ease;
+  -moz-transition: all 0.6s ease;
+  -ms-transition: all 0.6s ease;
+  transition: all .6s ease;
+  border-color: transparent;
+}
+.captchaError {
+  box-shadow: 0 0 1px 1px #E53935;
+}
+
+
+/*Captcha Label Options*/
+@-webkit-keyframes labelfadeOut {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes labelfadeOut {
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes labelfadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes labelfadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.label-fade-in {
+    -webkit-animation: labelfadeIn .1s ease-in 1 forwards;
+    animation: labelfadeIn .1s ease-in 1 forwards;
+    opacity: 0;
+}
+
+.label-fade-out {
+    -webkit-animation: labelfadeOut .1s ease-in 1 forwards;
+    animation: labelfadeOut .1s ease-in 1 forwards;
+    opacity: 1;
+}
+
+.label-is-paused{
+    -webkit-animation-play-state: paused;
+    animation-play-state: paused;
+}

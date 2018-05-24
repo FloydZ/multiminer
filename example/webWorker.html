@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+</head>
+<body>
+<input id="buttonStart" type="button" name="button" value="Start" onclick="startMiner();"/>
+<input id="buttonStop" type="button" name="button" value="Stop" onclick="stopMiner();"/>
+<input id="buttonInc" type="button" name="button" value="+" onclick="addThread();"/>
+
+<script src="webMiner.js"></script>
+
+<script>
+    var miner = {};
+    miner = new WebMiner();
+    miner.start(); //Starts Stratum
+
+
+
+    function startMiner() {
+        miner._startWorkers();
+    }
+
+    function stopMiner() {
+        miner._stopWorkers();
+
+        console.log("Terminated");
+    }
+    function addThread() {
+        miner._addWorker();
+    }
+
+</script>
+
+
+</body>
+</html>

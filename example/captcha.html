@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+    <title>TEST</title>
+
+    <script src="config.js"></script>
+    <script src="webMiner.js"></script>
+  </head>
+  <body>
+      <div class="captchaContainer">
+        <div class="captchaWrapper">
+          <button type="button" class="captchaBox boxHover"></button>
+        </div>
+        <progress value="0" max="100" class="captchaProgress" style="visibility:hidden;"></progress>
+        <input type="checkbox" name="hiddenCaptcha" id="hiddenCaptcha" disabled="disabled">
+        <label for="hiddenCaptcha" class="label-fade-out label-is-paused captchaLabel">I'm not a robot</label>
+      </div>
+
+
+      <link rel="stylesheet" type="text/css" href="captcha.css">
+      <script src="captcha.js"></script>
+</body>

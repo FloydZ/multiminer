@@ -72,7 +72,7 @@ Build
 	cmake .
 	make 
 	cd ..
-	make
+	make all -j8
 	
 ```
  * See Makefile for some specific flags like DEBUG.
