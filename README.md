@@ -65,15 +65,14 @@ Build
 
 #### Basic *nix build instructions (needs Emscripten):
 ```
-	git clone https://github.com/FloydZ/multiminer
-	cd multiminer
-	git clone http://www.digip.org/jansson/ 
-	cd jansson 
-	cmake .
-	make 
-	cd ..
-	make all -j8
-	
+git clone https://github.com/FloydZ/multiminer
+cd multiminer
+git clone https://github.com/akheron/jansson
+cd jansson 
+cmake .
+make 
+cd ..
+make all -j8
 ```
  * See Makefile for some specific flags like DEBUG.
 
