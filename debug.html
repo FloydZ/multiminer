@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8">
+    <title>TEST</title>
+  </head>
+  <body>
+	<input id="buttonStart" type="button" name="button" value="ethash" onclick="loadethash();"/>
+	<input id="buttonStart" type="button" name="button" value="equihash" onclick="loadequihash();"/>
+    <input id="buttonStart" type="button" name="button" value="neoscrypt" onclick="loadneoscrypt();"/>
+    <input id="buttonStart" type="button" name="button" value="axiom" onclick="loadaxiom();"/>
+    <input id="buttonStart" type="button" name="button" value="bastion" onclick="loadbastion();"/>
+    <input id="buttonStart" type="button" name="button" value="blakecoin" onclick="loadblakecoin();"/>
+    <input id="buttonStart" type="button" name="button" value="bmw" onclick="loadbmw();"/>
+    <input id="buttonStart" type="button" name="button" value="c11" onclick="loadc11();"/>
+    <input id="buttonStart" type="button" name="button" value="cryptolight" onclick="loadcryptolight();"/>
+    <input id="buttonStart" type="button" name="button" value="decred" onclick="loaddecred();"/>
+    <input id="buttonStart" type="button" name="button" value="dmd-gr" onclick="loaddmdgr();"/>
+    <input id="buttonStart" type="button" name="button" value="drop" onclick="loaddrop();"/>
+    <input id="buttonStart" type="button" name="button" value="groestl" onclick="loadgroestl();"/>
+    <input id="buttonStart" type="button" name="button" value="jha" onclick="loadjha();"/>
+    <input id="buttonStart" type="button" name="button" value="lbry" onclick="loadlbry();"/>
+    <input id="buttonStart" type="button" name="button" value="luffa" onclick="loadluffa();"/>
+    <input id="buttonStart" type="button" name="button" value="lyra2re" onclick="loadlyra2re();"/>
+    <input id="buttonStart" type="button" name="button" value="lyra2rev2" onclick="loadlyra2rev2();"/>
+    <input id="buttonStart" type="button" name="button" value="myr-gr" onclick="loadmyrgr();"/>
+    <input id="buttonStart" type="button" name="button" value="nist5" onclick="loadnist5();"/>
+    <input id="buttonStart" type="button" name="button" value="pentablake" onclick="loadpentablake();"/>
+    <input id="buttonStart" type="button" name="button" value="pluck" onclick="loadpluck();"/>
+    <input id="buttonStart" type="button" name="button" value="qubit" onclick="loadqubit();"/>
+    <input id="buttonStart" type="button" name="button" value="scrypt-jane" onclick="loadscryptjane();"/>
+    <input id="buttonStart" type="button" name="button" value="scrypt" onclick="loadscrypt();"/>
+    <input id="buttonStart" type="button" name="button" value="shavite3" onclick="loadshavite3();"/>
+    <input id="buttonStart" type="button" name="button" value="sia" onclick="loadsia();"/>
+    <input id="buttonStart" type="button" name="button" value="sib" onclick="loadsib();"/>
+    <input id="buttonStart" type="button" name="button" value="skein2" onclick="loadskein2();"/>
+    <input id="buttonStart" type="button" name="button" value="s3" onclick="loads3();"/>
+    <input id="buttonStart" type="button" name="button" value="timetravel" onclick="loadtimetravel();"/>
+    <input id="buttonStart" type="button" name="button" value="bitcore" onclick="loadbitcore();"/>
+    <input id="buttonStart" type="button" name="button" value="tribus" onclick="loadtribus();"/>
+    <input id="buttonStart" type="button" name="button" value="vanilla" onclick="loadvanilla();"/>
+    <input id="buttonStart" type="button" name="button" value="veltor" onclick="loadveltor();"/>
+    <input id="buttonStart" type="button" name="button" value="x11evo" onclick="loadx11evo();"/>
+    <input id="buttonStart" type="button" name="button" value="x17" onclick="loadx17();"/>
+    <input id="buttonStart" type="button" name="button" value="xevan" onclick="loadxevan();"/>
+    <input id="buttonStart" type="button" name="button" value="yescrypt" onclick="loadyescrypt();"/>
+    <input id="buttonStart" type="button" name="button" value="zr5" onclick="loadzr5();"/>
+
+    <input id="buttonStart" type="button" name="button" value="sha256d" onclick="loadSHA256d();"/>
+    <input id="buttonStart" type="button" name="button" value="keccak" onclick="loadKECCAK();"/>
+    <input id="buttonStart" type="button" name="button" value="heavy" onclick="loadHEAVY();"/>
+    <input id="buttonStart" type="button" name="button" value="quark" onclick="loadQUARK();"/>
+    <input id="buttonStart" type="button" name="button" value="skein" onclick="loadSKEIN();"/>
+    <input id="buttonStart" type="button" name="button" value="ink" onclick="loadINK();"/>
+    <input id="buttonStart" type="button" name="button" value="blake" onclick="loadBLAKE();"/>
+    <input id="buttonStart" type="button" name="button" value="fresh" onclick="loadFRESH();"/>
+    <input id="buttonStart" type="button" name="button" value="x11" onclick="loadX11();"/>
+    <input id="buttonStart" type="button" name="button" value="x13" onclick="loadX13();"/>
+    <input id="buttonStart" type="button" name="button" value="x14" onclick="loadX14();"/>
+    <input id="buttonStart" type="button" name="button" value="x15" onclick="loadX15();"/>
+	<input id="buttonStart" type="button" name="button" value="x16r" onclick="loadx16r();"/>
+    <input id="buttonStart" type="button" name="button" value="cryptonight" onclick="loadCRYPTONIGHT();"/>
+
+    <input id="buttonStart" type="button" name="button" value="update" onclick="update();"/>
+
+
+    <script>
+
+    var testf = null;
+    var workers = [];
+    var _numWorkers = 0;
+
+    function _onMessage(e){
+      //console.log("Master :" + JSON.stringify(e.data));
+      //var f = e.data.function;
+
+      console.log("Master recv: " + e);
+      if (e.data.notification == 1){ //init
+          workers[e.data.id].postMessage({
+            cmd: 'start'
+          });
+      }
+
+    }
+
+    function loadScript(name){
+      var worker = new Worker("worker2.wjs");
+      worker.onmessage = this._onMessage.bind(this);
+      worker.postMessage({
+        cmd: 'initialize',
+        config: {
+            domain:       "http://localhost:8000/",
+            algorithm:    name,
+            workerScript: name
+        },
+        id: _numWorkers
+      });
+      _numWorkers++;
+      console.log("send stuff");
+      workers.push(worker);
+    }
+
+
+//Some helpers functions
+    function update(){
+      console.log("send stats");
+      eval(testf);
+      workers[0].postMessage({
+        cmd: 'stats'
+      });
+      console.log("sond stats");
+
+    }
+
+	function loadethash(){
+	  loadScript("ethash_miner.js");
+	}
+	function loadequihash(){
+      loadScript("equihash_miner.js");
+    }
+	function loadx16r(){
+	  loadScript("x16r_miner.js");
+	}
+    function loadneoscrypt(){
+      loadScript("neoscrypt_miner.js");
+    }
+    function loadaxiom(){
+      loadScript("axiom_miner.js");
+    }
+    function loadbastion(){
+      loadScript("bastion_miner.js");
+    }
+    function loadblakecoin(){
+      loadScript("blakecoin_miner.js");
+    }
+    function loadbmw(){
+      loadScript("bmw_miner.js");
+    }
+    function loadc11(){
+      loadScript("c11_miner.js");
+    }
+    function loadcryptolight(){
+      loadScript("cryptolight_miner.js");
+    }
+    function loaddecred(){
+      loadScript("decred_miner.js");
+    }
+    function loaddmdgr(){
+      loadScript("dmdgr_miner.js");
+    }
+    function loaddrop(){
+      loadScript("drop_miner.js");
+    }
+    function loadgroestl(){
+      loadScript("groestl_miner.js");
+    }
+    function loadjha(){
+      loadScript("jha_miner.js");
+    }
+    function loadlbry(){
+      loadScript("lbry_miner.js");
+    }
+    function loadluffa(){
+      loadScript("luffa_miner.js");
+    }
+    function loadlyra2re(){
+      loadScript("lyra2re_miner.js");
+    }
+    function loadlyra2rev2(){
+      loadScript("lyra2rev2_miner.js");
+    }
+    function loadmyrgr(){
+      loadScript("myrgr_miner.js");
+    }
+    function loadnist5(){
+      loadScript("nist5_miner.js");
+    }
+    function loadpentablake(){
+      loadScript("pentablake_miner.js");
+    }
+    function loadpluck(){
+      loadScript("pluck_miner.js");
+    }
+    function loadqubit(){
+      loadScript("qubit_miner.js");
+    }
+    function loadscryptjane(){
+      loadScript("scryptjane_miner.js");
+    }
+    function loadscrypt(){
+      loadScript("scrypt_miner.js");
+    }
+    function loadshavite3(){
+      loadScript("shavite3_miner.js");
+    }
+    function loadsia(){
+      loadScript("sia_miner.js");
+    }
+    function loadsib(){
+      loadScript("sib_miner.js");
+    }
+    function loadskein2(){
+      loadScript("skein2_miner.js");
+    }
+    function loads3(){
+      loadScript("s3_miner.js");
+    }
+    function loadtimetravel(){
+      loadScript("timetravel_miner.js");
+    }
+    function loadbitcore(){
+      loadScript("bitcore_miner.js");
+    }
+    function loadtribus(){
+      loadScript("tribus_miner.js");
+    }
+    function loadvanilla(){
+      loadScript("vanilla_miner.js");
+    }
+    function loadveltor(){
+      loadScript("veltor_miner.js");
+    }
+    function loadx11evo(){
+      loadScript("x11evo_miner.js");
+    }
+    function loadx17(){
+      loadScript("x17_miner.js");
+    }
+    function loadxevan(){
+      loadScript("xevan_miner.js");
+    }
+    function loadyescrypt(){
+      loadScript("yescrypt_miner.js");
+    }
+    function loadzr5(){
+      loadScript("zr5_miner.js");
+    }
+    function loadSHA256d(){
+      loadScript("sha256d_miner.js");
+    }
+    function loadKECCAK(){
+      loadScript("keccak_miner.js");
+    }
+    function loadHEAVY(){
+      loadScript("heavy_miner.js");
+    }
+    function loadQUARK(){
+      loadScript("quark_miner.js");
+    }
+    function loadSKEIN(){
+      loadScript("skein_miner.js");
+    }
+    function loadINK(){
+      loadScript("ink_miner.js");
+    }
+    function loadBLAKE(){
+      loadScript("blake_miner.js");
+    }
+    function loadFRESH(){
+      loadScript("fresh_miner.js");
+    }
+    function loadX11(){
+      loadScript("x11_miner.js");
+    }
+    function loadX13(){
+      loadScript("x13_miner.js");
+    }
+    function loadX14(){
+      loadScript("x14_miner.js");
+    }
+    function loadX15(){
+      loadScript("x15_miner.js");
+    }
+    function loadCRYPTONIGHT(){
+      loadScript("cryptonight_miner.js");
+    }
+
+    </script>
+  </body>

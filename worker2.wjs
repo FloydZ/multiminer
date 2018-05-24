@@ -1,0 +1,140 @@
+//Config object
+var instance = null;
+var c = {};
+var id = 0; //Internal number of the miner
+var window = {};
+self.job = {};
+
+self.hashes = 0
+
+self.diff = 1024
+self.job = "{\"jsonrpc\":2.0,\"method\":\"mining.notify\",\"params\":[\"22\",\"1a459618aae8b9f67fc89c021f6d9e5e936a9d990c18a2611439b531ef1e436c\",\"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff1f035b2d140465261f5a08\",\"0c2f4d696e696e67436f72652f0000000002a18a6d95000000001976a91439d8dd3b9f6569e406f0bf7679fbff0159789f3788ac0000000000000000266a24aa21a9edd0e3ed49fc71132509b36dcfa16a89aa3551a0764700c059c0adc422a4230a8a00000000\",[\"8e4e55d6d27555548390a116658fbf6be7b9321fd370bb3967f01ed95deb1807\",\"f18191d4498a1ac2614118dd38312242cfa28b65f4e3c181d674555c00da8bf6\",\"9130852b7c0195cf015d17099c8031ec843a9016eb54c1bc1b8d6489454e4f6d\",\"52d40938399c746113993126ae4824a62990d5ae624b3da4b0ca7bcacbbfc17b\",\"dc6caf9e3e4e4fd8f74b7fdfbe21b6270d02a92660205e7ddfcaed9db01c9de0\",\"72e1e856f3cdb822b02d5b1615952483e5f9af978265c2ecaf1c44eacbad9216\"],\"20000000\",\"1a0d4f9f\",\"5a1f2665\",true]}";
+self.job_id = 22;
+
+function shareCallback(share) {
+    console.log("Worker.js: share found: " + Pointer_stringify(share));
+};
+
+
+function jobCallBack(_hashes, hps) {
+    console.log("Worker.js: C Miner Requested New Job");
+	hashes += _hashes
+	console.log("Worker.js: C Miner #Hashes: " + hashes + " h/s: " + hps);
+
+    job_id++;
+
+    job = "{\"jsonrpc\":2.0,\"method\":\"mining.notify\",\"params\":[\""+job_id.toString()+"\" ,\"1a459618aae8b9f67fc89c021f6d9e5e936a9d990c18a2611439b531ef1e436c\",\"01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff1f035b2d140465261f5a08\",\"0c2f4d696e696e67436f72652f0000000002a18a6d95000000001976a91439d8dd3b9f6569e406f0bf7679fbff0159789f3788ac0000000000000000266a24aa21a9edd0e3ed49fc71132509b36dcfa16a89aa3551a0764700c059c0adc422a4230a8a00000000\",[\"8e4e55d6d27555548390a116658fbf6be7b9321fd370bb3967f01ed95deb1807\",\"f18191d4498a1ac2614118dd38312242cfa28b65f4e3c181d674555c00da8bf6\",\"9130852b7c0195cf015d17099c8031ec843a9016eb54c1bc1b8d6489454e4f6d\",\"52d40938399c746113993126ae4824a62990d5ae624b3da4b0ca7bcacbbfc17b\",\"dc6caf9e3e4e4fd8f74b7fdfbe21b6270d02a92660205e7ddfcaed9db01c9de0\",\"72e1e856f3cdb822b02d5b1615952483e5f9af978265c2ecaf1c44eacbad9216\"],\"20000000\",\"1a0d4f9f\",\"5a1f2665\",true]}";
+
+    Module.ccall( 'init',                           // name of C function
+                  'number',                         // return type
+                  ['string', 'number'],             // argument types
+                  [job.toString(), diff]);          // arguments
+    return;
+};
+
+function startSolver() {
+    if (instance == null)
+    {
+        isSolverLoaded();
+    }
+
+    self.postMessage({
+        'notification': 0,//c.NOTIFICATION.STARTED,
+        'id'          : id
+    });
+
+    if(c.coin == "zcash"){
+        console.log("Worker.js: Zcash Instance: " + instance);
+        instance.start();
+    }else{
+		console.log("SEND INIT: " + job + diff)
+        Module.ccall( 'init',                       // name of C function
+                      'number',                     // return type
+                      ['string', 'number'],         // argument types
+                      [job.toString(), diff]);      // arguments
+    }
+};
+
+function isSolverLoaded()
+{
+    if (instance == null)
+    {
+        if(c.coin == "zcash"){
+            instance = new Module.ZcashMiner();
+            instance.createTestJob();
+            var pointer = Module.addFunction(jobCallBack);
+            var pointer = Module.addFunction(shareCallback);
+            instance.registerAddHashCallBack(pointer.toString());
+        }
+        else {
+            var pointer1 = Module.addFunction(jobCallBack);
+			var pointer2 = Module.addFunction(shareCallback);
+            if (pointer1 == null){
+                console.log("Worker.js: addFunction Error1: " + pointer1);
+                return;
+            }
+			if (pointer2 == null){
+				console.log("Worker.js: addFunction Error2: " + pointer2);
+				return;
+			}
+
+            Module.ccall('registerJobCallBack',    // name of C function
+                        '',                       // return type
+                        ['string'],               // argument types
+                        [pointer1.toString()]);    // arguments
+
+			Module.ccall('registerSubmitSolutionCallBack',    // name of C function
+	                    '',                       // return type
+	                    ['string'],               // argument types
+	                    [pointer2.toString()]);    // arguments
+        }
+
+        self.postMessage({
+            'notification': 1,//c.NOTIFICATION.INIT,
+            'id'          : id
+        });
+
+
+        //Nur für nicht ethereum
+        instance = 1;
+        console.log("Worker.js: Solver loaded of miner: " + id);
+
+    } else {
+        console.log("Worker.js: Solver already Loaded!");
+    }
+
+
+};
+
+self.onmessage = function (e) {
+    var cmd = e.data.cmd;
+    console.log("Worker.js: Recv from Master: " + cmd);
+
+    switch (cmd) {
+        case 'initialize':
+            c = e.data.config;
+            id = e.data.id;
+
+            if (c.hashCallback != null){
+                console.log("Worker.js: Worker: Got a HashCallback fkt");
+                self.callBack = c.hashCallback;
+            }
+
+            importScripts(c.workerScript);
+            Module['onRuntimeInitialized'] = isSolverLoaded;
+            break;
+        case 'start':
+            startSolver();
+            break;
+    }
+};
+
+
+
+function hash_speed_update() {
+    self.postMessage({
+        'notification': 2,//c.NOTIFICATION.STATISTIC,
+        'workerHashes': self.hashes,
+        'id'          : id
+    });
+};
